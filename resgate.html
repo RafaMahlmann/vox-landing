@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<!-- Esta página não fala com a internet: a política abaixo proíbe qualquer conexão de saída.
+     Ela só LÊ o que o Vox antigo deixou guardado neste navegador e BAIXA um arquivo. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Resgate das suas notas · Vox</title>
+<style>
+:root{
+  --bg:#f6f7f8; --card:#ffffff; --ink:#1b2126; --ink2:#4a5661; --line:#d9dfe4;
+  --accent:#0d7a80; --accent-ink:#ffffff; --accent-soft:#e1f3f3;
+  --warn-bg:#fff4dc; --warn-ink:#5b3b00; --warn-line:#e8c26a;
+  --ok-bg:#e3f5e8; --ok-ink:#12401f; --ok-line:#8fcea1;
+  --err-bg:#fde8e6; --err-ink:#661a12; --err-line:#e39a92;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#101417; --card:#182026; --ink:#eef2f4; --ink2:#a9b6bf; --line:#2c3942;
+    --accent:#3fb8bf; --accent-ink:#06282a; --accent-soft:#12363a;
+    --warn-bg:#3a2d10; --warn-ink:#ffe2a3; --warn-line:#7a5c1c;
+    --ok-bg:#12331d; --ok-ink:#c7f0d3; --ok-line:#2f6b43;
+    --err-bg:#3d1a17; --err-ink:#ffd2cc; --err-line:#7d3a33;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:18px/1.7 system-ui,-apple-system,"Segoe UI",Verdana,sans-serif;
+  padding:24px 16px 64px;
+}
+main{max-width:720px;margin:0 auto}
+h1{font-size:28px;line-height:1.25;margin:0 0 12px;letter-spacing:-.3px}
+h2{font-size:21px;line-height:1.3;margin:34px 0 12px}
+p{margin:0 0 14px}
+.lead{color:var(--ink2)}
+.caixa{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);background:var(--card);
+  border-radius:14px;padding:16px 18px;margin:20px 0}
+.caixa svg{flex:none;margin-top:4px;color:var(--accent)}
+.caixa p{margin:0}
+.aviso{border-color:var(--warn-line);background:var(--warn-bg);color:var(--warn-ink)}
+.aviso svg{color:currentColor}
+.ok{border-color:var(--ok-line);background:var(--ok-bg);color:var(--ok-ink)}
+.ok svg{color:currentColor}
+.erro{border-color:var(--err-line);background:var(--err-bg);color:var(--err-ink)}
+.erro svg{color:currentColor}
+.mundo{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:20px;margin:0 0 16px}
+.mundo h3{margin:0 0 4px;font-size:20px}
+.mundo .meta{color:var(--ink2);margin:0 0 16px}
+.linha-data{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:0 0 16px}
+.linha-data label{font-weight:600}
+input[type=date]{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;min-height:48px}
+.botoes{display:flex;flex-wrap:wrap;gap:12px}
+button{
+  font:inherit;font-weight:700;min-height:52px;padding:12px 22px;border-radius:14px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:10px;border:2px solid var(--accent);
+  background:var(--accent);color:var(--accent-ink);
+}
+button.sec{background:transparent;color:var(--accent)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+button svg{flex:none}
+ol{padding-left:1.4em;margin:0 0 14px}
+li{margin:0 0 10px}
+details{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:6px 18px;margin:0 0 12px}
+summary{cursor:pointer;font-weight:600;padding:10px 0;min-height:44px}
+small,.pequeno{color:var(--ink2);font-size:16px}
+code{font:inherit;font-weight:700;background:var(--accent-soft);padding:1px 6px;border-radius:6px;word-break:break-all}
+.sr{position:absolute;left:-9999px}
+#status{margin:20px 0}
+</style>
+</head>
+<body>
+<main>
+  <h1>Resgate das suas notas</h1>
+  <p class="lead">O Vox mudou de endereço, e o navegador guarda as notas separadas por endereço. Esta página procura, <strong>neste navegador</strong>, o que o Vox antigo deixou guardado aqui e monta um arquivo para você trazer de volta.</p>
+
+  <div class="caixa">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+    <p><strong>Nada sai do seu computador.</strong> Esta página não tem conexão com a internet: ela só lê o que já está guardado aqui e baixa um arquivo na sua pasta de downloads.</p>
+  </div>
+
+  <div id="status" role="status" aria-live="polite"><p>Procurando as suas notas…</p></div>
+  <div id="resultado"></div>
+
+  <h2>Como trazer as notas de volta</h2>
+  <ol>
+    <li>Toque em um dos botões azuis acima. O arquivo vai para a pasta <strong>Downloads</strong>.</li>
+    <li>Abra <code>app.voxcharmai.com</code>.</li>
+    <li>Toque em <strong>Exportar</strong> e depois em <strong>Restaurar backup</strong> (nas versões antigas, o nome é “Abrir projeto salvo”).</li>
+    <li>Escolha o arquivo que acabou de baixar e <strong>espere</strong>. Com muitas notas pode levar cerca de um minuto, e a tela pode parecer parada. Não feche a aba.</li>
+  </ol>
+  <p class="pequeno">Se você já restaurou o seu backup de antes, pode restaurar este arquivo por cima: o Vox reconhece as notas que já estão lá e só acrescenta as que faltam. Nada é duplicado.</p>
+
+  <h2>Não apareceu nada, ou apareceu pouco?</h2>
+  <details>
+    <summary>Abra esta página no mesmo navegador que você usava</summary>
+    <p>Cada navegador (e cada perfil dentro dele) guarda o seu próprio conjunto de notas. Se você usava o Vox no Chrome, abra esta página no Chrome, com a mesma conta.</p>
+  </details>
+  <details>
+    <summary>No iPad ou iPhone, com o ícone na tela inicial</summary>
+    <p>O ícone do Vox na tela inicial tem um armazenamento separado do Safari. Esta página só enxerga o que o Safari guardou, e não o que está dentro do ícone. Se as suas notas estavam no ícone, ele ainda as guarda, mas só o próprio ícone consegue abri-las.</p>
+  </details>
+  <details>
+    <summary>Se você limpou os dados do navegador</summary>
+    <p>Limpar “cookies e dados de sites” apaga as notas guardadas aqui, e elas não voltam. O arquivo de backup que você já tem é o caminho.</p>
+  </details>
+  <details id="tecnico">
+    <summary>O que esta página encontrou (detalhes técnicos)</summary>
+    <p id="diagnostico" class="pequeno">…</p>
+  </details>
+</main>
+
+<script>
+(function(){
+'use strict';
+var RAIZ='m1';
+var DATA_PADRAO='2026-09-13';           // data do backup mais recente do Rafa
+var $=function(id){return document.getElementById(id)};
+var db=null, mundos=[], diag=[], globais={};
+
+function nota(msg){diag.push(msg);var el=$('diagnostico');if(el)el.textContent=diag.join(' · ')}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function lsGet(k){try{return window.localStorage.getItem(k)}catch(e){return null}}
+function lsJson(k,fb){try{var s=lsGet(k);return s==null?fb:JSON.parse(s)}catch(e){return fb}}
+
+/* Abre o banco do Vox SEM criá-lo: se ele não existia, aborta a criação. */
+function abrirBanco(){
+  return new Promise(function(resolve,reject){
+    if(!window.indexedDB){resolve(null);return}
+    var req,inexistente=false;
+    try{req=indexedDB.open('vox_db')}catch(e){resolve(null);return}
+    req.onupgradeneeded=function(ev){
+      if(ev.oldVersion===0){inexistente=true;try{req.transaction.abort()}catch(e){}}
+    };
+    req.onsuccess=function(){resolve(req.result)};
+    req.onerror=function(){inexistente?resolve(null):reject(req.error)};
+    req.onblocked=function(){resolve(null)};
+  });
+}
+function idbGet(loja,chave){
+  return new Promise(function(resolve,reject){
+    if(!db||!db.objectStoreNames.contains(loja)){resolve(undefined);return}
+    var r=db.transaction(loja,'readonly').objectStore(loja).get(chave);
+    r.onsuccess=function(){resolve(r.result)};
+    r.onerror=function(){reject(r.error)};
+  });
+}
+function idbChaves(loja){
+  return new Promise(function(resolve){
+    if(!db||!db.objectStoreNames.contains(loja)){resolve([]);return}
+    var r=db.transaction(loja,'readonly').objectStore(loja).getAllKeys();
+    r.onsuccess=function(){resolve(r.result||[])};
+    r.onerror=function(){resolve([])};
+  });
+}
+
+/* Um "mundo" é um espaço de trabalho separado. O primeiro (m1) usa as chaves sem sufixo. */
+function sufixo(id){return id===RAIZ?'':'__'+id}
+
+async function descobrirMundos(){
+  var lista=lsJson('vox_mundos',null);
+  if(!Array.isArray(lista)||!lista.length)lista=[{id:RAIZ,nome:'Meu espaço'}];
+  var conhecidos={};lista.forEach(function(m){conhecidos[m.id]=1});
+  var chaves=(await idbChaves('kv')).filter(function(k){return typeof k==='string'});
+  try{for(var i=0;i<window.localStorage.length;i++){var k=window.localStorage.key(i);if(k)chaves.push(k)}}catch(e){}
+  chaves.forEach(function(k){
+    var m=/^vox_history(?:__(.+))?$/.exec(k);
+    if(!m)return;
+    var id=m[1]||RAIZ;
+    if(!conhecidos[id]){conhecidos[id]=1;lista.push({id:id,nome:'Espaço sem nome ('+id+')'})}
+  });
+  return lista;
+}
+
+async function lerMundo(m){
+  var suf=sufixo(m.id), itens, origem='banco';
+  try{itens=await idbGet('kv','vox_history'+suf)}catch(e){itens=undefined}
+  if(itens===undefined){
+    var s=lsGet('vox_history'+suf);
+    if(s){try{itens=JSON.parse(s);origem='localStorage antigo'}catch(e){}}
+  }
+  if(itens===undefined)return{m:m,vazio:true};
+  if(itens&&itens.__cofre)return{m:m,protegido:true};
+  if(!Array.isArray(itens))itens=[];
+  return{
+    m:m,itens:itens,origem:origem,
+    pastas:lsJson('vox_folders'+suf,[]),
+    stats:lsJson('vox_stats'+suf,{}),
+    tagNomes:lsJson('vox_tag_nomes'+suf,null)
+  };
+}
+
+function tempo(it){var t=Date.parse(it&&it.dt);return isNaN(t)?null:t}
+function fmtData(t){
+  if(t==null)return '—';
+  var d=new Date(t);
+  return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+}
+function fotosDe(itens){var n=0;itens.forEach(function(it){n+=(it.images&&it.images.length)||0});return n}
+function contarDesde(itens,desde){
+  if(desde==null)return itens.length;
+  return itens.filter(function(it){var t=tempo(it);return t!=null&&t>=desde}).length;
+}
+function dataDoCampo(v){
+  if(!v)return null;
+  var t=new Date(v+'T00:00:00').getTime();
+  return isNaN(t)?null:t;
+}
+
+/* ── fotos ── */
+function blobParaDataURL(blob){
+  return new Promise(function(resolve,reject){
+    var r=new FileReader();
+    r.onload=function(){resolve(r.result)};
+    r.onerror=function(){reject(r.error)};
+    r.readAsDataURL(blob);
+  });
+}
+async function carregarFoto(k){
+  var ordem=String(k).indexOf('opfs_')===0?['opfs','idb']:['idb','opfs'];
+  for(var i=0;i<ordem.length;i++){
+    try{
+      if(ordem[i]==='opfs'){
+        if(!navigator.storage||!navigator.storage.getDirectory)continue;
+        var raiz=await navigator.storage.getDirectory();
+        var arq=await (await raiz.getFileHandle(k)).getFile();
+        var tipo=arq.type;
+        if(!tipo){try{var meta=await idbGet('kv','opfsmeta_'+k);if(meta&&meta.mime)tipo=meta.mime}catch(e){}}
+        return tipo?new Blob([await arq.arrayBuffer()],{type:tipo}):arq;
+      }else{
+        var rec=await idbGet('imgs',k);
+        if(rec&&rec.buf)return new Blob([rec.buf],{type:rec.mime||''});
+      }
+    }catch(e){}
+  }
+  return null;
+}
+
+/* Monta o arquivo no MESMO formato do "Salvar backup" do Vox (app:'vox', version:1). */
+async function montar(dados,desde){
+  var itens=dados.itens;
+  if(desde!=null)itens=itens.filter(function(it){var t=tempo(it);return t!=null&&t>=desde});
+  var comFotos=await Promise.all(itens.map(async function(it){
+    if(!it.images||!it.images.length)return it;
+    var imgs=await Promise.all(it.images.map(async function(im){
+      try{
+        var blob=await carregarFoto(im.k);
+        if(!blob)return im;
+        return Object.assign({},im,{data:await blobParaDataURL(blob)});
+      }catch(e){return im}
+    }));
+    return Object.assign({},it,{images:imgs});
+  }));
+  return{
+    app:'vox',version:1,exportedAt:new Date().toISOString(),
+    history:comFotos,
+    folders:dados.pastas,
+    stats:dados.stats,
+    personalDict:globais.personalDict,
+    learnedRules:globais.learnedRules,
+    tagNomes:dados.tagNomes
+  };
+}
+
+function slug(s){
+  return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,30)||'mundo';
+}
+function hoje(){return new Date().toISOString().slice(0,10)}
+function tamanho(bytes){
+  if(bytes<1024*1024)return Math.max(1,Math.round(bytes/1024))+' KB';
+  return (bytes/1024/1024).toFixed(1).replace('.',',')+' MB';
+}
+function baixar(obj,nome){
+  var json=JSON.stringify(obj);
+  var blob=new Blob([json],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download=nome;a.rel='noopener';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url)},60000);
+  return blob.size;
+}
+
+var ICO_BAIXAR='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>';
+var ICO_INFO='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5v.01"/></svg>';
+var ICO_OK='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>';
+
+function caixa(classe,ico,html){return '<div class="caixa '+classe+'">'+ico+'<p>'+html+'</p></div>'}
+
+function desenhar(lidos){
+  var box=$('resultado'), status=$('status'), html='', achou=0;
+  lidos.forEach(function(d,i){
+    if(d.protegido){
+      html+=caixa('aviso',ICO_INFO,'<strong>'+esc(d.m.nome)+'</strong> está protegido com senha (cofre). Esta página não abre mundos protegidos, porque não tem a sua senha. Abra o Vox, destranque o mundo e use o backup de dentro dele.');
+      return;
+    }
+    if(d.vazio||!d.itens||!d.itens.length)return;
+    achou++;
+    var tempos=d.itens.map(tempo).filter(function(t){return t!=null}).sort(function(a,b){return a-b});
+    var de=tempos.length?fmtData(tempos[0]):'—', ate=tempos.length?fmtData(tempos[tempos.length-1]):'—';
+    var fotos=fotosDe(d.itens);
+    html+='<section class="mundo" data-i="'+i+'">'
+      +'<h3>'+esc(d.m.nome)+'</h3>'
+      +'<p class="meta"><strong>'+d.itens.length+'</strong> '+(d.itens.length===1?'nota':'notas')
+      +' · de '+de+' até '+ate
+      +(fotos?' · '+fotos+(fotos===1?' foto':' fotos'):'')+'</p>'
+      +'<div class="linha-data"><label for="desde'+i+'">Notas novas: as criadas a partir de</label>'
+      +'<input type="date" id="desde'+i+'" value="'+DATA_PADRAO+'"></div>'
+      +'<p class="pequeno" id="conta'+i+'"></p>'
+      +'<div class="botoes">'
+      +'<button type="button" id="novas'+i+'">'+ICO_BAIXAR+'<span></span></button>'
+      +'<button type="button" class="sec" id="tudo'+i+'">'+ICO_BAIXAR+'<span>Baixar tudo ('+d.itens.length+')</span></button>'
+      +'</div>'
+      +'<p class="pequeno" id="feito'+i+'" style="margin:14px 0 0"></p>'
+      +'</section>';
+  });
+  box.innerHTML=html;
+  if(!achou){
+    var ha=lidos.some(function(d){return d.protegido});
+    status.innerHTML=ha?'':caixa('erro',ICO_INFO,'<strong>Não encontrei nenhuma nota neste navegador.</strong> Veja as dicas abaixo, em “Não apareceu nada”. A mais comum: abrir esta página no mesmo navegador (e na mesma conta) em que você usava o Vox.');
+    if(ha)status.innerHTML='';
+    return;
+  }
+  var total=lidos.reduce(function(s,d){return s+((d.itens&&d.itens.length)||0)},0);
+  status.innerHTML=caixa('ok',ICO_OK,'<strong>Encontrei as suas notas.</strong> São '+total+' no total. Elas ainda estão guardadas neste navegador.');
+
+  lidos.forEach(function(d,i){
+    if(!d.itens||!d.itens.length)return;
+    var campo=$('desde'+i), btnNovas=$('novas'+i), btnTudo=$('tudo'+i);
+    function atualizar(){
+      var desde=dataDoCampo(campo.value), n=contarDesde(d.itens,desde);
+      $('conta'+i).textContent=n?((n===1?'É 1 nota criada':'São '+n+' notas criadas')+' a partir de '+fmtData(desde)+'.'):('Nenhuma nota criada a partir de '+fmtData(desde)+'.');
+      btnNovas.querySelector('span').textContent='Baixar só as notas novas ('+n+')';
+      btnNovas.disabled=!n;
+    }
+    campo.addEventListener('input',atualizar);atualizar();
+    async function gerar(tudo,btn){
+      var alvo=$('feito'+i);
+      btnNovas.disabled=true;btnTudo.disabled=true;
+      alvo.textContent='Preparando o arquivo…';
+      try{
+        var desde=tudo?null:dataDoCampo(campo.value);
+        var obj=await montar(d,desde);
+        var nome='vox_resgate_'+slug(d.m.nome)+(tudo?'':'_novas')+'_'+hoje()+'.json';
+        var bytes=baixar(obj,nome);
+        alvo.innerHTML='Pronto: <code>'+esc(nome)+'</code> ('+tamanho(bytes)+', '+obj.history.length+' '+(obj.history.length===1?'nota':'notas')+'). Procure na pasta <strong>Downloads</strong>.';
+      }catch(e){
+        alvo.textContent='Não consegui montar o arquivo: '+(e&&e.message?e.message:e);
+      }
+      btnTudo.disabled=false;atualizar();
+    }
+    btnNovas.addEventListener('click',function(){gerar(false)});
+    btnTudo.addEventListener('click',function(){gerar(true)});
+  });
+}
+
+async function iniciar(){
+  try{
+    db=await abrirBanco();
+    nota(db?'banco vox_db encontrado':'banco vox_db não existe neste navegador');
+    if(db){nota('lojas: '+Array.prototype.slice.call(db.objectStoreNames).join('/'))}
+    globais.personalDict=lsJson('vox_personal_dict',null);
+    globais.learnedRules=lsJson('vox_learned_rules',null);
+    mundos=await descobrirMundos();
+    nota(mundos.length+(mundos.length===1?' espaço':' espaços')+' de trabalho');
+    var lidos=[];
+    for(var i=0;i<mundos.length;i++)lidos.push(await lerMundo(mundos[i]));
+    lidos.forEach(function(d){
+      nota((d.m.nome)+': '+(d.protegido?'protegido':(d.vazio?'sem notas':d.itens.length+' notas ('+d.origem+')')));
+    });
+    desenhar(lidos);
+  }catch(e){
+    $('status').innerHTML=caixa('erro',ICO_INFO,'<strong>Algo deu errado ao procurar as notas.</strong> '+esc(e&&e.message?e.message:e));
+    nota('erro: '+(e&&e.message?e.message:e));
+  }
+}
+iniciar();
+})();
+</script>
+<noscript><p>Esta página precisa de JavaScript para ler as notas guardadas no navegador.</p></noscript>
+</body>
+</html>
