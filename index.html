@@ -2071,6 +2071,42 @@
 
 </section>
 
+<!-- PROVA: 15 s do app de verdade (ph-capa, gravado em 11/11 com o Groq).
+     A fala é de sintetizador e o tempo foi encurtado; o texto e a lente são reais. -->
+<section class="vox-demo" id="demo" aria-labelledby="voxDemoTitle">
+<style>
+.vox-demo{background:#071516;color:#eaf4f4;padding:8px 20px 56px}
+.vox-demo-inner{max-width:880px;margin:0 auto;text-align:center}
+.vox-demo h2{font-size:clamp(20px,3.2vw,28px);margin:0 0 6px;font-weight:800;letter-spacing:-.01em}
+.vox-demo-sub{margin:0 0 18px;color:#a9bcbc;font-size:15px}
+.vox-demo-frame{border-radius:14px;overflow:hidden;border:1px solid rgba(72,215,210,.28);box-shadow:0 18px 50px rgba(0,0,0,.45);background:#0b2021;aspect-ratio:16/9}
+.vox-demo-frame video{display:block;width:100%;height:100%;object-fit:cover}
+.vox-demo-note{margin:10px 0 0;color:#a9bcbc;font-size:12.5px}
+</style>
+<div class="vox-demo-inner">
+    <h2 id="voxDemoTitle" data-i18n>See it in 15 seconds</h2>
+    <p class="vox-demo-sub" data-i18n>Record, get the text, pick a lens, get your to-do list.</p>
+    <div class="vox-demo-frame">
+        <video id="voxDemoVideo" src="vox-demo.mp4" poster="vox-demo-poster.jpg" muted loop playsinline preload="none" width="1280" height="720" aria-label="Vox demo: recording a voice note, the text appears, the Decisions &amp; Actions lens turns it into a list"></video>
+    </div>
+    <p class="vox-demo-note" data-i18n>The real app and real AI output. Sped up, no sound; the voice is a made-up note read by a speech synthesizer.</p>
+</div>
+<script>
+(function () {
+    var v = document.getElementById('voxDemoVideo');
+    if (!v) return;
+    var calmo = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (calmo) { v.setAttribute('controls', ''); v.preload = 'metadata'; return; }
+    function tocar() { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () { v.setAttribute('controls', ''); }); }
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+            es.forEach(function (e) { if (e.isIntersecting) tocar(); else v.pause(); });
+        }, { threshold: .25 }).observe(v);
+    } else { tocar(); }
+})();
+</script>
+</section>
+
 <style>
 
 /* =====================================================
@@ -11820,7 +11856,10 @@
     function ofertaCiclo(cycle) {
         var vit = ofertaOn && cycle === "lifetime";
         if (wasEl) wasEl.hidden = !vit;
-        if (linkEl) linkEl.setAttribute("href", vit ? linkBase + "&billing_cycle=lifetime&coupon=" + encodeURIComponent(OFERTA.cupom) : linkBase);
+        /* O ciclo vai sempre no link: antes o checkout abria igual pros três
+           (sem billing_cycle) e quem escolheu "Monthly" caía no padrão do Freemius. */
+        var ciclo = /^(monthly|annual|lifetime)$/.test(cycle || "") ? cycle : "annual";
+        if (linkEl) linkEl.setAttribute("href", linkBase + "&billing_cycle=" + ciclo + (vit ? "&coupon=" + encodeURIComponent(OFERTA.cupom) : ""));
     }
 
     /* A pilula ativa e sempre o MESMO no do DOM: ela desliza ate o botao
@@ -11882,6 +11921,7 @@
 
     toggle.classList.add("is-ready");
     placeThumb(activeBtn(), false);
+    ofertaCiclo(activeBtn().getAttribute("data-cycle"));
     window.addEventListener("load", function () { placeThumb(activeBtn(), false); });
 
     var resizeTimer = null;
@@ -14315,6 +14355,10 @@ let I18N_PT = {
 "Talk it through, messy as it comes. Vox writes down every word — then helps you decide, plan and untangle it: who does what by when, what is still undecided, what is really weighing on you.":"Fale do jeito que vier, bagunçado mesmo. O Vox escreve cada palavra — e depois te ajuda a decidir, planejar e desembaraçar: quem faz o quê até quando, o que ainda não foi decidido, o que está pesando de verdade.",
 "Start for free →":"Comece grátis →",
 "See how it works":"Ver como funciona",
+"See it in 15 seconds":"Veja em 15 segundos",
+"Record, get the text, pick a lens, get your to-do list.":"Grave, receba o texto, escolha uma lente e saia com a lista do que fazer.",
+"The real app and real AI output. Sped up, no sound; the voice is a made-up note read by a speech synthesizer.":"O app e a resposta da IA são de verdade. Acelerado e sem som; a voz é um sintetizador lendo uma nota inventada.",
+"Vox demo: recording a voice note, the text appears, the Decisions & Actions lens turns it into a list":"Demonstração do Vox: gravar uma nota de voz, o texto aparece, a lente Decisões e ações vira uma lista",
 "No account, no card":"Sem conta, sem cartão",
 "14 days of Pro, on us":"14 dias de Pro, de presente",
 "Your notes stay on your device":"Suas notas ficam no seu aparelho",
